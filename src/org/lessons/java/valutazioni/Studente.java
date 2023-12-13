@@ -1,59 +1,56 @@
 package org.lessons.java.valutazioni;
 
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Random;
 
 public class Studente {
-    private static int counter = 10;
-    private int idStudente;
-    private int assenzeperc;
-    private double media;
+    private int id;
+    private int assenze;
+    private BigDecimal media;
 
-    public Studente(int assenzeperc, double media) {
-        this.idStudente = counter++;
-        this.assenzeperc = assenzeperc;
-        this.media = media;
+    public Studente() {
+        Random random = new Random();
+        assenze = random.nextInt(0, 101);
+        media = BigDecimal.valueOf(random.nextDouble() * 5);
+        id = random.nextInt();
     }
 
-    public int getIdStudente() {
-        return idStudente;
+    public int getId() {
+        return id;
     }
 
-    public void setIdStudente(int idStudente) {
-        this.idStudente = idStudente;
+    public int getAssenze() {
+        return assenze;
     }
 
-    public int getAssenzeperc() {
-        return assenzeperc;
-    }
-
-    public void setAssenzeperc(int assenzeperc) {
-        this.assenzeperc = assenzeperc;
-    }
-
-    public double getMedia() {
+    public BigDecimal getMedia() {
         return media;
     }
 
-    public void setMedia(double media) {
-        this.media = media;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public boolean promosso(){
-        if(assenzeperc > 50){
-                return false;
-        }
-        if(assenzeperc > 25 && assenzeperc < 50 && media <= 2){
-                return false;
-        }
-        if (assenzeperc < 25 && media < 2){
-            return false;
-        }
-        else {
-       return true;
+    public boolean promossi() {
+        int tot = 100;
+
+        boolean promosso = false;
+        if ((assenze / tot * 100 <= 50 && assenze / tot * 100 >= 25) && media.compareTo(new BigDecimal(2)) == 1) {
+            return promosso = true;
+        } else if (assenze / tot * 100 < 25 && (media.compareTo(new BigDecimal(2)) == 0 || media.compareTo(new BigDecimal(2)) == 1)) {
+            return promosso = true;
+        } else {
+            return promosso;
         }
     }
+
     @Override
-    public String toString(){
-        return "ID: " + idStudente + " Percentuale assenze: " + assenzeperc + "%" + " Media voti: " + media;
+    public String toString() {
+        return "Studente: " + id + " Assenze: " + assenze + " Media: " + media.setScale(1, RoundingMode.HALF_DOWN);
     }
+
 }
+
+
